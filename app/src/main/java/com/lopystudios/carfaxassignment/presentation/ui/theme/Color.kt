@@ -1,4 +1,4 @@
-package com.lopystudios.carfaxassignment.ui.theme
+package com.lopystudios.carfaxassignment.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
