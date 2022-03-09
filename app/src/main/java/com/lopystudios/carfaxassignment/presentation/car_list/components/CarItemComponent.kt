@@ -17,11 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lopystudios.carfaxassignment.R
+import com.lopystudios.carfaxassignment.data.remote.dto.Listings
 
 @Composable
 fun CarItemComponent(
     onItemClick: () -> Unit,
-    onCallDealerClick: () -> Unit
+    onCallDealerClick: () -> Unit,
+    listing: Listings
 ) {
 
     Card(
@@ -41,7 +43,7 @@ fun CarItemComponent(
                 contentScale = ContentScale.Crop,
             )
 
-            PriceAndMileageComponent("$20,215", "0 mi")
+            PriceAndMileageComponent(listing.listPrice.toString(), listing.mileage.toString(), listing)
 
             Divider(
                 thickness = 1.dp,
@@ -69,23 +71,17 @@ fun CarItemComponent(
 }
 
 @Composable
-fun PriceAndMileageComponent(price: String, mileage: String) {
+fun PriceAndMileageComponent(price: String, mileage: String, listing: Listings) {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
         Text(
-            text = "2022 Jeep Gladiator Willys",
+            text = "${listing.year} ${listing.make} ${listing.model}",
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(text = "$price | $mileage", modifier = Modifier.padding(bottom = 8.dp))
-        Text(text = "Lyndhurst, NJ")
+        Text(text = "${listing.dealer.city} ${listing.dealer.state}")
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CarItemComponentPreview() {
-    CarItemComponent(onItemClick = {}, onCallDealerClick = {})
 }

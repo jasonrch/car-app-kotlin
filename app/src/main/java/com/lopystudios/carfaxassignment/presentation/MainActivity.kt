@@ -13,7 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import com.lopystudios.carfaxassignment.presentation.car_details.CarDetailScreen
 import com.lopystudios.carfaxassignment.presentation.car_list.CarListScreen
 import com.lopystudios.carfaxassignment.presentation.ui.theme.CarfaxAssignmentTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
