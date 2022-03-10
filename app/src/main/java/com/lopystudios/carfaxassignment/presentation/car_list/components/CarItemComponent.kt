@@ -1,6 +1,5 @@
 package com.lopystudios.carfaxassignment.presentation.car_list.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -13,12 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.lopystudios.carfaxassignment.R
-import com.lopystudios.carfaxassignment.data.remote.dto.Listings
 import com.lopystudios.carfaxassignment.domain.model.Car
 
 @Composable
@@ -44,7 +41,7 @@ fun CarItemComponent(
                     .height(300.dp),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
-                error = painterResource(id = R.drawable.ic_launcher_background)
+                error = painterResource(id = R.drawable.ic_error_image)
             )
 
             PriceAndMileageComponent(car)

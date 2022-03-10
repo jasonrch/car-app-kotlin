@@ -39,7 +39,7 @@ fun CarDetailComponent(
                 .height(200.dp),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
-            error = painterResource(id = R.drawable.ic_launcher_background)
+            error = painterResource(id = R.drawable.ic_error_image)
         )
 
         Text(
@@ -103,7 +103,7 @@ fun VehicleInfoComponent(car: Car) {
         VehicleInfoItemComponent("Drive Type", car.driveType)
         VehicleInfoItemComponent("Transmission", car.transmission)
         VehicleInfoItemComponent("Body Style", car.bodyStyle)
-        VehicleInfoItemComponent("Engine", car.engine)
+        VehicleInfoItemComponent("Engine", car.engine.replace('+', ' '))
         VehicleInfoItemComponent("Fuel", car.fuel)
     }
 }
