@@ -10,9 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.lopystudios.carfaxassignment.common.Constants.CAR_KEY
+import com.lopystudios.carfaxassignment.domain.model.Car
 import com.lopystudios.carfaxassignment.presentation.car_details.CarDetailScreen
 import com.lopystudios.carfaxassignment.presentation.car_list.CarListScreen
 import com.lopystudios.carfaxassignment.presentation.ui.theme.CarfaxAssignmentTheme
+import com.squareup.moshi.Moshi
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,8 +40,13 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(
                             route = Screens.CarDetailScreen.route
-                        ) {
-                            CarDetailScreen()
+                        ) { backStackEntry ->
+                            val carJson = backStackEntry.arguments?.getString(CAR_KEY)
+                            val moshi = Moshi.Builder().build()
+                            val jsonAdapter = moshi.adapter(Car::class.java).lenient()
+                            val carObject = jsonAdapter.fromJson(carJson)
+
+                            CarDetailScreen(carObject)
                         }
                     }
                 }

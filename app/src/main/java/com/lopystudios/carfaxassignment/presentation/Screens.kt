@@ -1,6 +1,6 @@
 package com.lopystudios.carfaxassignment.presentation
 
 sealed class Screens(val route: String) {
-    object CarListScreen: Screens("car_list_screen")
-    object CarDetailScreen: Screens("car_detail_screen")
+    object CarListScreen: Screens("car-list-screen")
+    object CarDetailScreen: Screens("car-detail-screen/car={car}")
 }
