@@ -16,14 +16,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.lopystudios.carfaxassignment.R
 import com.lopystudios.carfaxassignment.data.remote.dto.Listings
+import com.lopystudios.carfaxassignment.domain.model.Car
 
 @Composable
 fun CarItemComponent(
     onItemClick: () -> Unit,
     onCallDealerClick: () -> Unit,
-    listing: Listings
+    car: Car
 ) {
 
     Card(
@@ -34,16 +36,18 @@ fun CarItemComponent(
         elevation = 10.dp
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_test_image),
+            AsyncImage(
+                model = car.photoUrl,
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp),
                 contentScale = ContentScale.Crop,
+                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                error = painterResource(id = R.drawable.ic_launcher_background)
             )
 
-            PriceAndMileageComponent(listing.listPrice.toString(), listing.mileage.toString(), listing)
+            PriceAndMileageComponent(car)
 
             Divider(
                 thickness = 1.dp,
@@ -71,17 +75,19 @@ fun CarItemComponent(
 }
 
 @Composable
-fun PriceAndMileageComponent(price: String, mileage: String, listing: Listings) {
+fun PriceAndMileageComponent(car: Car) {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
         Text(
-            text = "${listing.year} ${listing.make} ${listing.model}",
+            text = car.baseInfo(),
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        Text(text = "$price | $mileage", modifier = Modifier.padding(bottom = 8.dp))
-        Text(text = "${listing.dealer.city} ${listing.dealer.state}")
+
+        //TODO: format price to money and miles to ks
+        Text(text = "${car.price} | ${car.mileage} mi", modifier = Modifier.padding(bottom = 8.dp))
+        Text(text = car.location())
     }
 }

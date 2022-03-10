@@ -1,6 +1,5 @@
 package com.lopystudios.carfaxassignment.presentation.car_details.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -15,35 +14,41 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.lopystudios.carfaxassignment.R
+import com.lopystudios.carfaxassignment.domain.model.Car
 
 @Composable
-fun CarDetailComponent() {
+fun CarDetailComponent(
+    car: Car,
+    onCallDealerClick: () -> Unit
+) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_test_image),
+        AsyncImage(
+            model = car.photoUrl,
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+            error = painterResource(id = R.drawable.ic_launcher_background)
         )
 
         Text(
-            text = "2022 Jeep Gladiator Willys",
+            text = car.baseInfo().replace('+', ' '),
             modifier = Modifier.padding(bottom = 8.dp, start = 50.dp, top = 12.dp)
         )
 
         Text(
-            text = "$21,045 | 64.2k mi",
+            text = "$${car.price} | ${car.mileage} mi",
             modifier = Modifier.padding(bottom = 8.dp, start = 50.dp),
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -60,7 +65,7 @@ fun CarDetailComponent() {
             fontSize = 18.sp
         )
 
-        VehicleInfoComponent()
+        VehicleInfoComponent(car = car)
 
         Divider(
             thickness = 1.dp,
@@ -70,7 +75,7 @@ fun CarDetailComponent() {
         )
 
         Button(
-            onClick = { },
+            onClick = { onCallDealerClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -90,16 +95,16 @@ fun CarDetailComponent() {
 
 
 @Composable
-fun VehicleInfoComponent() {
+fun VehicleInfoComponent(car: Car) {
     Column {
-        VehicleInfoItemComponent("Location", "New York, NY")
-        VehicleInfoItemComponent("Exterior Color", "Gray")
-        VehicleInfoItemComponent("Interior Color", "Black")
-        VehicleInfoItemComponent("Drive Type", "4x4")
-        VehicleInfoItemComponent("Transmission", "Automatic")
-        VehicleInfoItemComponent("Body Style", "Pickup Truck")
-        VehicleInfoItemComponent("Engine", "6 Cyl 3.7 L")
-        VehicleInfoItemComponent("Fuel", "Diesel")
+        VehicleInfoItemComponent("Location", car.location())
+        VehicleInfoItemComponent("Exterior Color", car.exteriorColor)
+        VehicleInfoItemComponent("Interior Color", car.interiorColor)
+        VehicleInfoItemComponent("Drive Type", car.driveType)
+        VehicleInfoItemComponent("Transmission", car.transmission)
+        VehicleInfoItemComponent("Body Style", car.bodyStyle)
+        VehicleInfoItemComponent("Engine", car.engine)
+        VehicleInfoItemComponent("Fuel", car.fuel)
     }
 }
 
@@ -119,10 +124,4 @@ fun VehicleInfoItemComponent(type: String, value: String) {
             Text(text = value, color = Color.Black)
         }
     }
-}
-
-@Preview
-@Composable
-fun CarDetailComponentPreview() {
-    CarDetailComponent()
 }
