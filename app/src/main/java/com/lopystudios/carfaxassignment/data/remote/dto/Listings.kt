@@ -1,5 +1,7 @@
 package com.lopystudios.carfaxassignment.data.remote.dto
 
+import com.lopystudios.carfaxassignment.domain.model.Car
+
 data class Listings(
     val accidentHistory: AccidentHistory,
     val advantage: Boolean,
@@ -67,3 +69,25 @@ data class Listings(
     val windowSticker: String,
     val year: Int
 )
+
+fun Listings.toCar(): Car {
+    return Car(
+        photoUrl = images.firstPhoto.large,
+        year = year,
+        make = make,
+        model = model,
+        trim = trim,
+        price = currentPrice,
+        mileage = mileage,
+        city = dealer.city,
+        state = dealer.state,
+        dealerPhoneNumber = dealer.phone,
+        interiorColor = interiorColor,
+        exteriorColor = exteriorColor,
+        driveType = drivetype,
+        transmission = transmission,
+        engine = engine,
+        bodyStyle = bodytype,
+        fuel = fuel
+    )
+}
