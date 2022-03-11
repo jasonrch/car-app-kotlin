@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.lopystudios.carfaxassignment.R
+import com.lopystudios.carfaxassignment.common.HelperFunctions.formattedMileCount
+import com.lopystudios.carfaxassignment.common.HelperFunctions.formattedPrice
 import com.lopystudios.carfaxassignment.domain.model.Car
 
 @Composable
@@ -83,8 +85,9 @@ fun PriceAndMileageComponent(car: Car) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        //TODO: format price to money and miles to ks
-        Text(text = "${car.price} | ${car.mileage} mi", modifier = Modifier.padding(bottom = 8.dp))
+        val price = formattedPrice(car.price)
+        val mileage = formattedMileCount(car.mileage)
+        Text(text = "$price | $mileage", modifier = Modifier.padding(bottom = 8.dp))
         Text(text = car.location())
     }
 }

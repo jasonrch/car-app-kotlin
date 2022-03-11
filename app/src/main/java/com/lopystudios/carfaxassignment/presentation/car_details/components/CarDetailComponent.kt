@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.lopystudios.carfaxassignment.R
+import com.lopystudios.carfaxassignment.common.HelperFunctions.formattedMileCount
+import com.lopystudios.carfaxassignment.common.HelperFunctions.formattedPrice
 import com.lopystudios.carfaxassignment.domain.model.Car
 
 @Composable
@@ -47,8 +49,10 @@ fun CarDetailComponent(
             modifier = Modifier.padding(bottom = 8.dp, start = 50.dp, top = 12.dp)
         )
 
+        val price = formattedPrice(car.price)
+        val mileage = formattedMileCount(car.mileage)
         Text(
-            text = "$${car.price} | ${car.mileage} mi",
+            text = "$price | $mileage mi",
             modifier = Modifier.padding(bottom = 8.dp, start = 50.dp),
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -103,7 +107,7 @@ fun VehicleInfoComponent(car: Car) {
         VehicleInfoItemComponent("Drive Type", car.driveType)
         VehicleInfoItemComponent("Transmission", car.transmission)
         VehicleInfoItemComponent("Body Style", car.bodyStyle)
-        VehicleInfoItemComponent("Engine", car.engine.replace('+', ' '))
+        VehicleInfoItemComponent("Engine", car.engine)
         VehicleInfoItemComponent("Fuel", car.fuel)
     }
 }
@@ -118,10 +122,10 @@ fun VehicleInfoItemComponent(type: String, value: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(horizontalAlignment = Alignment.Start) {
-            Text(text = type, color = Color.LightGray)
+            Text(text = type, color = Color.Gray)
         }
         Column(horizontalAlignment = Alignment.Start) {
-            Text(text = value, color = Color.Black)
+            Text(text = value.replace('+', ' '), color = Color.Black)
         }
     }
 }
