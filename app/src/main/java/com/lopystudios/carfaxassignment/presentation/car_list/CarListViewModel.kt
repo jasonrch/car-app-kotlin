@@ -1,26 +1,55 @@
 package com.lopystudios.carfaxassignment.presentation.car_list
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.lopystudios.carfaxassignment.data.remote.dto.Listings
-import com.lopystudios.carfaxassignment.domain.repository.CarfaxRepository
+import androidx.lifecycle.viewModelScope
+import com.lopystudios.carfaxassignment.common.Resource
+import com.lopystudios.carfaxassignment.domain.use_case.get_cars.GetCars
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+
 
 @HiltViewModel
 class CarListViewModel @Inject constructor(
-    private val repository: CarfaxRepository
+    private val getCarsUseCase: GetCars,
 ) : ViewModel() {
 
-    val items: Observable<List<Listings>>
-        get() {
-            val result = repository.getListings()
-                .map {
-                    it.listings
-                }
-                .observeOn(Schedulers.single())
+    private val _state = mutableStateOf(CarListState())
+    val state: State<CarListState> = _state
 
-            return result
-        }
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+
+    init {
+        getCars()
+    }
+
+    fun refreshCars() {
+        getCars()
+    }
+
+    private fun getCars() {
+        getCarsUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _isRefreshing.value = false
+                    _state.value = CarListState(cars = result.data ?: emptyList())
+                }
+                is Resource.Error -> {
+                    _isRefreshing.value = false
+                    _state.value = CarListState(
+                        error = result.message ?: "",
+                        cars = result.data ?: emptyList()
+                    )
+                }
+                is Resource.Loading -> {
+                    _isRefreshing.value = true
+                    _state.value = CarListState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 }
