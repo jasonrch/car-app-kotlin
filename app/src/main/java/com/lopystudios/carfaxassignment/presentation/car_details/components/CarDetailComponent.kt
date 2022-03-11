@@ -36,7 +36,7 @@ fun CarDetailComponent(
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(300.dp),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
             error = painterResource(id = R.drawable.ic_error_image)
