@@ -45,7 +45,7 @@ class GetCars @Inject constructor(
     private suspend fun updateCacheData(cars: List<Car>) {
         if(cars.isNotEmpty()) {
             //clear the cache everytime we reach a limit of cars saved
-            if(shouldDeleteCurrentCache(repository.getCount())) {
+            if(shouldDeleteCurrentCache(repository.getCacheItemsCount())) {
                 repository.clearCache()
             }
 
